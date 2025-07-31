@@ -3,270 +3,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lapor Bullying - Pusat Pengaduan Sekolah</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sistem Pengaduan Bullying Sekolah</title>
     <style>
-        body {
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --danger: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f9ff;
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 100%);
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
         }
-        .form-container {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .confirmation-modal {
-            transition: all 0.3s ease;
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
         }
-        .animate-bounce {
-            animation: bounce 1s infinite;
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(-5px);
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 8px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-upload-btn {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px dashed #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .file-upload-btn:hover {
+            background-color: #eee;
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-info {
+            background-color: #e7f5ff;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .alert-success {
+            background-color: #ebfbee;
+            color: #2b8a3e;
+            border-left: 4px solid #2b8a3e;
+        }
+        
+        .privacy-content {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: var(--light);
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
             }
-            50% {
-                transform: translateY(5px);
+            
+            .logo {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
             }
         }
-        .floating-button {
-            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center space-x-2">
-                    <img src="https://placehold.co/40x40" alt="Logo Sekolah dengan simbol perisai dan buku" class="w-10 h-10 rounded-full">
-                    <span class="text-xl font-semibold text-blue-600">LaporBK</span>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#about" class="text-gray-600 hover:text-blue-600">Tentang Kami</a>
-                    <a href="#procedure" class="text-gray-600 hover:text-blue-600">Prosedur</a>
-                    <a href="#faq" class="text-gray-600 hover:text-blue-600">FAQ</a>
-                    <a href="#contact" class="text-gray-600 hover:text-blue-600">Kontak</a>
-                </div>
-                <button class="md:hidden" id="mobile-menu-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div class="hidden md:hidden bg-white py-2 px-4" id="mobile-menu">
-            <a href="#about" class="block py-2 text-gray-600 hover:text-blue-600">Tentang Kami</a>
-            <a href="#procedure" class="block py-2 text-gray-600 hover:text-blue-600">Prosedur</a>
-            <a href="#faq" class="block py-2 text-gray-600 hover:text-blue-600">FAQ</a>
-            <a href="#contact" class="block py-2 text-gray-600 hover:text-blue-600">Kontak</a>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-gradient text-white py-16 md:py-24">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-8 md:mb-0">
-                <h1 class="text-3xl md:text-4xl font-bold mb-4">Laporkan Bullying dengan Aman</h1>
-                <p class="text-xl mb-6">Platform resmi untuk melaporkan kasus bullying di sekolah Anda secara rahasia dan terjamin.</p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="#report" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition">Laporkan Sekarang</a>
-                    <a href="#procedure" class="border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition">Pelajari Prosedur</a>
-                </div>
-            </div>
-            <div class="md:w-1/2 flex justify-center">
-                <img src="https://placehold.co/500x350" alt="Siswa yang bahagia bermain bersama di lingkungan sekolah yang positif" class="rounded-lg shadow-xl">
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Kenapa Harus Melapor?</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15l8-8m0 0l-8-8m8 8H4" />
-                        </svg>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ba2942ba-8079-4eaf-a438-0eacb4492f87.png" alt="Logo Sekolah dengan gambar perisai dan tulisan nama sekolah" />
+                    <div class="logo-text">
+                        <h1>Sistem Pengaduan Bullying</h1>
+                        <p>Laporan Terjadinya Perundungan di Lingkungan Sekolah</p>
                     </div>
-                    <h3 class="font-semibold text-lg mb-2 text-gray-800">Respons Cepat</h3>
-                    <p class="text-gray-600">Laporan Anda akan segera ditindaklanjuti oleh Guru BK dalam 24 jam setelah pengiriman.</p>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-lg mb-2 text-gray-800">Kerahasiaan Terjamin</h3>
-                    <p class="text-gray-600">Identitas Anda akan kami rahasiakan. Tidak ada yang tahu siapa yang melapor.</p>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-lg mb-2 text-gray-800">Sistem Pendukung</h3>
-                    <p class="text-gray-600">Anda akan mendapatkan pendampingan psikologis jika dibutuhkan setelah laporan dibuat.</p>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Report Form Section -->
-    <section id="report" class="py-16 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="form-container bg-white rounded-xl p-8 md:p-10">
-                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">Formulir Pengaduan Bullying</h2>
-                <form id="bullyingReportForm">
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="reportType">Jenis Pengaduan *</label>
-                        <select id="reportType" name="reportType" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="">Pilih jenis pengaduan</option>
-                            <option value="verbal">Bullying Verbal (e.g. ejekan, ancaman)</option>
-                            <option value="physical">Bullying Fisik</option>
-                            <option value="social">Bullying Sosial</option>
-                            <option value="cyber">Cyberbullying</option>
-                            <option value="other">Lainnya</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="incidentDate">Tanggal Kejadian *</label>
-                        <input type="date" id="incidentDate" name="incidentDate" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="incidentLocation">Lokasi Kejadian *</label>
-                        <select id="incidentLocation" name="incidentLocation" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="">Pilih lokasi</option>
-                            <option value="classroom">Kelas</option>
-                            <option value="schoolyard">Halaman Sekolah</option>
-                            <option value="cafeteria">Kantin</option>
-                            <option value="bathroom">Kamar Mandi</option>
-                            <option value="online">Daring/Online</option>
-                            <option value="other">Lainnya</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="incidentDetails">Detail Kejadian *</label>
-                        <textarea id="incidentDetails" name="incidentDetails" rows="5" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ceritakan apa yang terjadi secara lengkap..." required></textarea>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="evidence">Bukti Pendukung (Opsional)</label>
-                        <input type="file" id="evidence" name="evidence" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" multiple>
-                        <p class="text-sm text-gray-500 mt-1">Anda dapat mengunggah foto, video, atau dokumen pendukung (maks. 5MB per file)</p>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" for="anonymous">Identitas Diri</label>
-                        <div class="space-y-3">
-                            <label class="flex items-center space-x-2">
-                                <input type="radio" name="anonymous" value="yes" checked class="form-radio text-blue-600">
-                                <span>Saya ingin tetap anonim</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="radio" name="anonymous" value="no" class="form-radio text-blue-600">
-                                <span>Saya bersedia memberikan identitas</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div id="identityFields" class="hidden">
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="block text-gray-700 mb-2" for="fullName">Nama Lengkap</label>
-                                <input type="text" id="fullName" name="fullName" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2" for="class">Kelas</label>
-                                <input type="text" id="class" name="class" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center mb-6">
-                        <input type="checkbox" id="confirmation" name="confirmation" class="form-checkbox h-5 w-5 text-blue-600" required>
-                        <label for="confirmation" class="ml-2 text-gray-700">Saya menyatakan bahwa informasi yang diberikan adalah benar *</label>
-                    </div>
-
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Kirim Laporan
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Procedure Section -->
-    <section id="procedure" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Prosedur Penanganan Laporan</h2>
-            <div class="relative">
-                <!-- Timeline -->
-                <div class="hidden md:block absolute left-1/2 h-full w-1 bg-blue-200 transform -translate-x-1/2"></div>
+    </header>
+    
+    <main class="container">
+        <div class="card fade-in">
+            <h2>Formulir Pengaduan Bullying</h2>
+            <p>Isi formulir berikut dengan informasi yang akurat untuk melaporkan kejadian bullying.</p>
+            
+            <form id="complaintForm">
+                <div class="alert alert-info">
+                    <strong>Informasi Penting:</strong> Semua laporan akan ditangani dengan kerahasiaan. Anda dapat memilih untuk melapor secara anonim atau teridentifikasi.
+                </div>
                 
-                <!-- Timeline Items -->
-                <div class="relative z-10 space-y-8 md:space-y-0">
-                    <!-- Item 1 -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start mb-8">
-                        <div class="flex-shrink-0 bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mb-4 md:mb-0 md:mr-6">
-                            1
+                <div class="form-group">
+                    <label for="reportType">Jenis Laporan</label>
+                    <select id="reportType" required>
+                        <option value="" disabled selected>Pilih jenis laporan</option>
+                        <option value="bullying">Bullying Verbal</option>
+                        <option value="physical">Bullying Fisik</option>
+                        <option value="cyber">Cyberbullying</option>
+                        <option value="social">Bullying Sosial</option>
+                        <option value="other">Lainnya</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Identitas Pelapor</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="anonim" name="identity" value="anonim" checked>
+                            <label for="anonim">Anonim</label>
                         </div>
-                        <div class="md:w-1/2 md:pt-2 md:pr-8">
-                            <h3 class="text-xl font-semibold text-blue-600 mb-2">Pengiriman Laporan</h3>
-                            <p class="text-gray-600">Murid mengisi formulir pengaduan secara online dengan detail yang jelas.</p>
-                        </div>
-                        <div class="hidden md:block md:w-1/2"></div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start mb-8">
-                        <div class="hidden md:block md:w-1/2"></div>
-                        <div class="flex-shrink-0 bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mb-4 md:mb-0 md:ml-6 md:order-last">
-                            2
-                        </div>
-                        <div class="md:w-1/2 md:pt-2 md:pl-8 md:text-right">
-                            <h3 class="text-xl font-semibold text-blue-600 mb-2">Verifikasi Laporan</h3>
-                            <p class="text-gray-600">Guru BK menerima laporan dan melakukan verifikasi awal dalam 24 jam.</p>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start mb-8">
-                        <div class="flex-shrink-0 bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mb-4 md:mb-0 md:mr-6">
-                            3
-                        </div>
-                        <div class="md:w-1/2 md:pt-2 md:pr-8">
-                            <h3 class="text-xl font-semibold text-blue-600 mb-2">Penyelidikan</h3>
-                            <p class="text-gray-600">Tim BK melakukan penyelidikan lebih lanjut dan mengumpulkan bukti pendukung.</p>
-                        </div>
-                        <div class="hidden md:block md:w-1/2"></div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start mb-8">
-                        <div class="hidden md:block md:w-1/2"></div>
-                        <div class="flex-shrink-0 bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mb-4 md:mb-0 md:ml-6 md:order-last">
-                            4
-                        </div>
-                        <div class="md:w-1/2 md:pt-2 md:pl-8 md:text-right">
-                            <h3 class="text-xl font-semibold text-blue-600 mb-2">Intervensi</h3>
-                            <p class="text-gray-600">Memberikan pendampingan pada korban dan penanganan terhadap pelaku bullying.</p>
+                        <div class="radio-option">
+                            <input type="radio" id="teridentifikasi" name="identity" value="teridentifikasi">
+                            <label for="teridentifikasi">Teridentifikasi</label>
                         </div>
                     </div>
+                </div>
+                
+                <div id="identityFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Masukkan nama lengkap">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                        <input type="text" id="kelas" placeholder="Contoh: XII IPA 2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="noHp">Nomor Telepon/HP</label>
+                        <input type="tel" id="noHp" placeholder="Contoh: 08123456789">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Contoh: nama@email.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="incidentDate">Tanggal Kejadian</label>
+                    <input type="date" id="incidentDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="incidentPlace">Tempat Kejadian</label>
+                    <input type="text" id="incidentPlace" placeholder="Contoh: Ruang kelas, lapangan sekolah, dll" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="perpetrators">Pelaku (jika diketahui)</label>
+                    <input type="text" id="perpetrators" placeholder="Nama atau deskripsi pelaku (jika diketahui)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="victims">Korban</label>
+                    <input type="text" id="victims" placeholder="Nama atau deskripsi korban" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Deskripsi Kejadian</label>
+                    <textarea id="description" placeholder="Jelaskan secara detail apa yang terjadi, termasuk kata-kata atau tindakan yang dilakukan" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="witnesses">Saksi (jika ada)</label>
+                    <textarea id="witnesses" placeholder="Nama atau deskripsi saksi yang melihat kejadian"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="actions">Tindakan yang Sudah Dilakukan</label>
+                    <textarea id="actions" placeholder="Jelaskan tindakan apa saja yang sudah dilakukan untuk menangani masalah ini"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Bukti Pendukung (Opsional)</label>
+                    <p style="margin-bottom: 10px; font-size: 0.9em; color: #666;">
+                        Unggah foto, video, atau dokumen pendukung (maksimum 5MB per file, format: jpg, png, pdf)
+                    </p>
+                    <div class="file-upload">
+                        <button type="button" class="file-upload-btn">
+                            <i class="icon-upload"></i> Pilih File
+                        </button>
+                        <input type="file" id="evidence" accept=".jpg,.jpeg,.png,.pdf">
+                    </div>
+                    <div class="file-info" id="fileInfo">Belum ada file dipilih</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="privacyPolicy">
+                        <input type="checkbox" id="privacyPolicy" required>
+                        Saya telah membaca dan menyetujui <a href="#" id="privacyLink">Kebijakan Privasi</a> dan memahami bahwa informasi yang diberikan akan digunakan untuk penanganan kasus ini.
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-block">Kirim Pengaduan</button>
+            </form>
+            
+            <!-- Modal Kebijakan Privasi -->
+            <div id="privacyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; justify-content: center; align-items: center;">
+                <div style="background-color: white; padding: 30px; border-radius: 10px; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2>Kebijakan Privasi</h2>
+                        <button id="closePrivacyModal" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                    </div>
+                    
+                    <div class="privacy-content">
+                        <h3>Penggunaan Data</h3>
+                        <p>Data yang dikumpulkan melalui formulir ini akan digunakan semata-mata untuk keperluan penanganan laporan bullying di lingkungan sekolah. Informasi yang Anda berikan akan dijaga kerahasiaannya dan hanya dapat diakses oleh petugas yang berwenang.</p>
+                        
+                        <h3>Data yang Dikumpulkan</h3>
+                        <p>Data yang mungkin dikumpulkan meliputi: identitas pelapor (jika tidak anonim), deskripsi kejadian, tanggal dan tempat kejadian, identitas pelaku dan korban (jika diketahui), serta bukti pendukung.</p>
+                        
+                        <h3>Penyimpanan Data</h3>
+                        <p>Data akan disimpan dalam sistem yang aman selama periode investigasi dan mungkin disimpan lebih lama untuk keperluan dokumentasi dan pencegahan di masa depan.</p>
+                        
+                        <h3>Pembagian Data</h3>
+                        <p>Data mungkin dibagikan dengan pihak sekolah yang berwenang (guru BK, kepala sekolah) dan mungkin pihak berwajib jika diperlukan. Data tidak akan dibagikan dengan pihak luar tanpa persetujuan atau dalam hal yang diwajibkan oleh hukum.</p>
+                    </div>
+                    
+                    <button id="acceptPrivacy" class="btn" style="margin-top: 20px;">Saya Memahami</button>
+                </div>
+            </div>
+            
+            <!-- Konfirmasi Pengiriman -->
+            <div id="confirmationModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; justify-content: center; align-items: center;">
+                <div style="background-color: white; padding: 30px; border-radius: 10px; max-width: 600px; text-align: center;">
+                    <div class="alert alert-success" style="margin-bottom: 20px;">
+                        Laporan Anda telah berhasil dikirim!
+                    </div>
+                    <p style="margin-bottom: 20px;">Terima kasih telah meluangkan waktu untuk melaporkan kejadian ini. Kami serius menangani setiap laporan bullying dan akan segera mengambil tindakan sesuai prosedur.</p>
+                    <p style="margin-bottom: 20px; font-weight: 600;">Nomor Laporan: <span id="reportNumber">SB-2023-00876</span></p>
+                    <p style="margin-bottom: 20px;">Anda dapat menggunakan nomor ini untuk mengecek status laporan Anda.</p>
+                    <button id="closeConfirmationModal" class="btn">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Sistem Pengaduan Bullying Sekolah. Hak Cipta Dilindungi.</p>
+            <p style="font-size: 0.8em; margin-top: 5px;">Dikembangkan oleh Tim BK Sekolah</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle field identitas
+            const identityRadios = document.querySelectorAll('input[name="identity"]');
+            const identityFields = document.getElementById('identityFields');
+            
+            identityRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    identityFields.style.display = this.value === 'teridentifikasi' ? 'block' : 'none';
+                });
+            });
+            
+            // File upload preview
+            const fileInput = document.getElementById('evidence');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    fileInfo.textContent = `File dipilih: ${this.files[0].name}`;
+                } else {
+                    fileInfo.textContent = 'Belum ada file dipilih';
+                }
+            });
+            
+            // Modal kebijakan privasi
+            const privacyLink = document.getElementById('privacyLink');
+            const privacyModal = document.getElementById('privacyModal');
+            const closePrivacyModal = document.getElementById('closePrivacyModal');
+            const acceptPrivacy = document.getElementById('acceptPrivacy');
+            
+            privacyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                privacyModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closePrivacyModal.addEventListener('click', function() {
+                privacyModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            acceptPrivacy.addEventListener('click', function() {
+                privacyModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                document.getElementById('privacyPolicy').checked = true;
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === privacyModal) {
+                    privacyModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Form submission
+            const complaintForm = document.getElementById('complaintForm');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+            
+            complaintForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                const requiredFields = ['reportType', 'incidentDate', 'incidentPlace', 'victims', 'description'];
+                let isValid = true;
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value) {
+                        field.style.borderColor = 'var(--danger)';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#ddd';
+                    }
+                });
+                
+                if (!document.getElementById('privacyPolicy').checked) {
+                    alert('Anda harus menyetujui kebijakan privasi sebelum mengirimkan formulir');
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Simulate form submission
+                    generateReportNumber();
+                    confirmationModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    this.reset();
+                    fileInfo.textContent = 'Belum ada file dipilih';
+                    
+                    // Scroll to top
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            closeConfirmationModal.addEventListener('click', function() {
+                confirmationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === confirmationModal) {
+                    confirmationModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Generate random report number
+            function generateReportNumber() {
+                const date = new Date();
+                const year = date.getFullYear();
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('reportNumber').textContent = `SB-${year}-${randomNum}`;
+            }
+            
+            // Set today's date as default for incident date
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0];
+            document.getElementById('incidentDate').value = dateString;
+        });
+    </script>
+</body>
+</html>
 
-                    <!-- Item 5 -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start">
-                        <div class="flex-shrink-0 bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold mb-4 md:mb-0 md:mr-6">
-                            5
-                        </div>
-                        <div class="md:w-1/2 md
